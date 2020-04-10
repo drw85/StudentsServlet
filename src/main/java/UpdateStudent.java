@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,28 +14,25 @@ import java.util.Arrays;
 public class UpdateStudent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        try {
-//            String idParam = req.getParameterValues("id")[0];
-////            int id = Integer.parseInt(idParam);
-////            resp.getOutputStream().println(Arrays.toString(strArrToIntArr(req.getParameterValues("marks"))));
-//            resp.getOutputStream().println(idParam);
-//        } catch (Exception ex) {
-//            resp.getOutputStream().println(ex.toString());
-//        }
+        String path = System.getProperty("user.home") + File.separator + "studentsJson.txt";
+        File file = new File(path);
+        if (!file.exists()){
+            file.createNewFile();
+        }
         resp.setContentType("text/html");
         resp.addHeader("Cache-Control", "no-cache");
         resp.addHeader("Content-Type", "text/html");
         try {
             String idParam = req.getParameter("id");
             Gson gson = new Gson();
-            FileReader fr = new FileReader("stud.txt");
+            FileReader fr = new FileReader(path);
             Student[] studentsArray = gson.fromJson(fr, Student[].class);
             for (int i = 0; i < studentsArray.length; i++) {
                 if (studentsArray[i].getId() == Integer.parseInt(idParam)) {
                     studentsArray[i].setMarks(strArrToIntArr(req.getParameterValues("marks")));
                 }
             }
-            FileWriter fw = new FileWriter("stud.txt");
+            FileWriter fw = new FileWriter(path);
             gson.toJson(studentsArray, fw);
             fw.flush();
             fw.close();

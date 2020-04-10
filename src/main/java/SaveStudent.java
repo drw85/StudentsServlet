@@ -4,15 +4,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Arrays;
 
 public class SaveStudent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = System.getProperty("user.home") + File.separator + "studentsJson.txt";
+        File file = new File(path);
+        if (!file.exists()){
+            file.createNewFile();
+        }
         resp.setContentType("text/html");
         resp.addHeader("Cache-Control", "no-cache");
         resp.addHeader("Content-Type", "text/html");
@@ -20,7 +22,7 @@ public class SaveStudent extends HttpServlet {
         String firstnameParam = req.getParameter("firstname");
         String lastnameParam = req.getParameter("lastname");
         Gson gson = new Gson();
-        FileReader fr = new FileReader("stud.txt");
+        FileReader fr = new FileReader(path);
         Student[] studentsArray;
         studentsArray = gson.fromJson(fr, Student[].class);
         if (studentsArray==null){
@@ -40,7 +42,7 @@ public class SaveStudent extends HttpServlet {
         Student[] tempArr = Arrays.copyOf(studentsArray, studentsArray.length+1);
         tempArr[tempArr.length-1] = studentToSave;
         try {
-            FileWriter fw = new FileWriter("stud.txt");
+            FileWriter fw = new FileWriter(path);
             gson.toJson(tempArr, fw);
             fw.flush();
             fw.close();

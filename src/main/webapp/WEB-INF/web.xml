@@ -64,9 +64,24 @@
         <servlet-name>UpdateStudent</servlet-name>
         <url-pattern>/updateStudent</url-pattern>
     </servlet-mapping>
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>default</servlet-name>-->
-<!--        <url-pattern>*.html</url-pattern>-->
-<!--    </servlet-mapping>-->
 
+    <servlet>
+        <servlet-name>l29Sorting</servlet-name>
+        <servlet-class>Lesson29Sorting</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>l29Sorting</servlet-name>
+        <url-pattern>/l29Sorting</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>InitArray</servlet-name>
+        <servlet-class>InitStudents</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>InitArray</servlet-name>
+        <url-pattern>/init</url-pattern>
+    </servlet-mapping>
 </web-app>

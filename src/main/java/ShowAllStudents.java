@@ -14,25 +14,18 @@ import java.util.ArrayList;
 public class ShowAllStudents extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = System.getProperty("user.home") + File.separator + "studentsJson.txt";
+        File file = new File(path);
+        if (!file.exists()){
+            file.createNewFile();
+        }
         Gson gson = new Gson();
-//        ArrayList<Student> arr = new ArrayList<>();
-//        arr.add(new Student(1, "AA", "BB"));
-//        arr.add(new Student(2, "CC", "DD"));
-//        arr.add(new Student(3, "EE", "FF"));
-//        arr.add(new Student(4, "ZZ", "XX"));
-//        FileWriter fw = new FileWriter("stud.txt");
-//        gson.toJson(arr.toArray(), fw);
-//        fw.flush();
-
-        FileReader fr = new FileReader("stud.txt");
-        Student[] desi = gson.fromJson(fr, Student[].class);
-
-
+        FileReader fr = new FileReader(path);
+        Student[] students = gson.fromJson(fr, Student[].class);
         resp.setContentType("text/html");
         resp.addHeader("Cache-Control", "no-cache");
         resp.addHeader("Content-Type", "text/html");
-        req.setAttribute("students", desi);
+        req.setAttribute("students", students);
         req.getRequestDispatcher("/allStudents.jsp").forward(req, resp);
-//        resp.sendRedirect(req.getContextPath() + "/allStudents.jsp");
     }
 }
