@@ -38,7 +38,7 @@
     <c:forEach items="${students}" var="student">
         <div class="row pt-3">
             <div class="col-md-12 text-center">
-               <div class="h6">${student.lastname}</div>
+               <div class="h6">${student}</div>
             </div>
         </div>
     </c:forEach>

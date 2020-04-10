@@ -28,8 +28,8 @@ public class Lesson29Sorting extends HttpServlet {
         req.getRequestDispatcher("/l29Sorting.jsp").forward(req, resp);
     }
 
-    private static List<Student> getDataForShow() {
-        List<Student> toReturn;
+    private static List<String> getDataForShow() {
+        List<String> toReturn;
         try {
             Gson gson = new Gson();
             FileReader fr = new FileReader(path);
@@ -46,6 +46,7 @@ public class Lesson29Sorting extends HttpServlet {
                         return student;
                     })
                     .sorted((student1, student2) -> student1.getLastname().compareTo(student2.getLastname()))
+                    .map(student -> student.getLastname())
                     .collect(Collectors.toList());
 
             return toReturn;
